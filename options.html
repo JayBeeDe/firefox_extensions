@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Options</title>
+    <link rel="stylesheet" href="options.css" />
+</head>
+
+<body>
+    <div id="app">
+        <h2>Options</h2>
+        <p>
+            By default the title remains the title of the website, but you can customize per website some regex to transform the title within the markdown link.
+        </p>
+        <p>
+            If some URL (regex) pattern matches, the page title will go through the replacing process with the corresponding match patten and replacement config.
+        </p>
+
+        <div id="rules-container">
+            <!-- Rules will be dynamically added here -->
+        </div>
+
+        <button id="add-rule">Add Rule</button>
+        <button id="save-options">Save Options</button>
+        <button id="import-options">Import Options</button>
+        <input id="import-options-browse" type="file" class="hidden" accept=".json" id="import-options"></button>
+        <button id="export-options">Export Options</button>
+
+        <span id="saved-ok" class="status-ok">Options saved</span>
+        <span id="exported-ok" class="status-ok">Options exported to file</span>
+        <span id="exported-error" class="status-error">An error has occurred while exporting to file</span>
+        <span id="imported-ok" class="status-ok">Options imported from file</span>
+        <span id="imported-error" class="status-error">An error has occurred while importing file</span>
+    </div>
+    <template id="rule-template">
+        <div class="rule-row">
+            <input placeholder="URL Match Pattern" class="url" />
+            <input placeholder="Title Match Pattern" class="search" />
+            <input placeholder="Title Replacement" class="replace" />
+            <span class="remove-rule-button" title="Remove Rule">✗</span>
+        </div>
+    </template>
+
+    <script src="options.js"></script>
+</body>
+
+</html>
