@@ -1,0 +1,22 @@
+{
+    "categories": [
+        "tabs"
+    ],
+    "homepage": {
+        "en-US": "https://github.com/JayBeeDe/firefox_extensions/blob/main/caml/README.md"
+    },
+    "name": {
+        "en-US": "Copy as Markdown Link"
+    },
+    "requires_payment": false,
+    "slug": "copy-as-markdown-link",
+    "summary": {
+        "en-US": "Copies the current tab's URL and title as a Markdown/Jira/HTML link to the clipboard."
+    },
+    "support_email": {
+        "en-US": "dev@delon.cloud"
+    },
+    "version": {
+        "license": "GPL-3.0-only"
+    }
+}

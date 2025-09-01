@@ -1,0 +1,65 @@
+---
+name: Build, publish and release firefox extension
+on:
+  push:
+    branches:
+      - ci
+    tags:
+      - "caml_v*"
+jobs:
+  publish-firefox-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Install packages
+        run: sudo apt-get install -y coreutils git jq npm
+      - name: Install web-ext
+        run: npm install -g web-ext
+      - name: Check tag
+        run: |
+          set -euo pipefail
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          TAG="${GITHUB_REF##*/}"
+          if [ "$GITHUB_REF_TYPE" == "branch" ]; then
+          TAG="caml_v0.0.1"
+          fi
+          checkTag "$TAG"
+      - name: Set version
+        run: |
+          set -euo pipefail
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          setVersion
+      - name: Check extension
+        run: |
+          set -euo pipefail
+          web-ext -s "${GITHUB_WORKSPACE}/${{ env.EXTENSION_SHORT }}" --no-input lint -w
+      - name: Build
+        run: |
+          set -euo pipefail
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          build
+      - name: Publish
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
+        run: |
+          set -euo pipefail
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          publish
+      - name: Check Publication
+        run: |
+          set -euo pipefail
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          checkPublication
+      - name: Release
+        if: github.ref_type == 'tag'
+        uses: action-pack/github-release@v2
+        with:
+          tag: ${{ github.ref }}
+          title: "${{ env.EXTENSION_SHORT }}_v${{ env.EXTENSION_VERSION }}"
+          body: |
+            A new release is available for the following firefox extension:
+            ${{ env.EXTENSION_NAME }}
+
+            **Firefox Browser Add-Ons**: https://addons.mozilla.org/firefox/addon/copy-as-markdown-link/

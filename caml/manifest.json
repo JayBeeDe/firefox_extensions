@@ -1,8 +1,9 @@
 {
     "manifest_version": 3,
     "name": "Copy as Markdown Link",
-    "version": "1.0",
+    "version": "0.0",
     "description": "Copies the current tab's URL and title as a Markdown/Jira/HTML link to the clipboard.",
+    "author": "JayBeeDe",
     "browser_specific_settings": {
         "gecko": {
             "id": "@copy-as-markdown-link"
