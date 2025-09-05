@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const DEFAULT_ICON = "icons/icon48.png";
-const SUCCESS_ICON = "icons/icon48-on.png";
+const SUCCESS_ICON = "icons/icon48-ok.png";
 
 function createLink(typeLink = "markdown") {
     browser.tabs.query({ active: true, currentWindow: true })

@@ -33,28 +33,28 @@
     "commands": {
         "copy-markdown-link": {
             "suggested_key": {
-                "default": "Ctrl+Shift+L",
-                "windows": "Ctrl+Shift+L",
-                "mac": "Command+Shift+L",
-                "linux": "Ctrl+Shift+L"
+                "default": "Ctrl+Alt+M",
+                "windows": "Ctrl+Alt+M",
+                "mac": "Command+Alt+M",
+                "linux": "Ctrl+Alt+M"
             },
             "description": "Copy the current tab's URL and title as Markdown link."
         },
         "copy-jira-link": {
             "suggested_key": {
-                "default": "Ctrl+Shift+Q",
-                "windows": "Ctrl+Shift+Q",
-                "mac": "Command+Shift+Q",
-                "linux": "Ctrl+Shift+Q"
+                "default": "Ctrl+Alt+J",
+                "windows": "Ctrl+Alt+J",
+                "mac": "Command+Alt+J",
+                "linux": "Ctrl+Alt+J"
             },
             "description": "Copy the current tab's URL and title as Jira link."
         },
         "copy-html-link": {
             "suggested_key": {
-                "default": "Ctrl+Shift+U",
-                "windows": "Ctrl+Shift+U",
-                "mac": "Command+Shift+U",
-                "linux": "Ctrl+Shift+U"
+                "default": "Ctrl+Alt+H",
+                "windows": "Ctrl+Alt+H",
+                "mac": "Command+Alt+H",
+                "linux": "Ctrl+Alt+H"
             },
             "description": "Copy the current tab's URL and title as HTML link."
         }
