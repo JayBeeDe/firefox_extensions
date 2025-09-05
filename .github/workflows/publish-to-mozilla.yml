@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install packages
         run: sudo apt-get install -y coreutils git jq npm
       - name: Install web-ext
@@ -39,12 +41,6 @@ jobs:
           set -euo pipefail
           source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
           build
-      - name: Release
-        run: |
-          set -euo pipefail
-          set -x
-          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
-          release
       - name: Prepare
         run: |
           set -euo pipefail
@@ -76,4 +72,4 @@ jobs:
 
             **Firefox Browser Add-Ons**: https://addons.mozilla.org/firefox/addon/copy-as-markdown-link/
 
-            ${{ env.RELEASE_NOTES || "" }}
+            ${{ env.RELEASE_NOTES || '' }}

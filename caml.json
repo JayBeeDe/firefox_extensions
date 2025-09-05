@@ -5,6 +5,10 @@
 	"homepage": {
 		"en-US": "https://github.com/JayBeeDe/firefox_extensions/blob/main/caml/README.md"
 	},
+    "icons": {
+        "48": "caml/icons/icon48.png",
+        "96": "caml/icons/icon96.png"
+    },
 	"name": {
 		"en-US": "Copy as Markdown Link"
 	},
