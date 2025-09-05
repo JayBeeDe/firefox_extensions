@@ -79,6 +79,32 @@ function build() {
     echo "Package built successfully to $PACKAGE_PATH with sha256sum $PACKAGE_CHECKSUM"
 }
 
+function release() {
+	last_tag_name="$(git describe --abbrev=0 --tags --match "${EXTENSION_SHORT}_v*" "$(git rev-list --tags --skip=1 --max-count=1 --grep="$EXTENSION_SHORT" 2>/dev/null)" 2>/dev/null)"
+	if [ -n "$last_tag_name" ]; then
+		echo "last_tag_name was $last_tag_name"
+		_export RELEASE_NOTES="$EXTENSION_VERSION ($(date +%Y-%m-%d))\n\n$(git log --pretty=format:"%s" "${last_tag_name}..HEAD" | awk -v component="$EXTENSION_SHORT" '$0 ~ component {sub(/^[^:]+:\s*/, ""); print}' | sed -rz "s:\n:\\\n:g")"
+		echo "release_notes"
+		echo -e "$RELEASE_NOTES"
+	fi
+}
+
+function prepare() {
+	last_tag_name="$(git describe --abbrev=0 --tags --match "${EXTENSION_SHORT}*" "$(git rev-list --tags --skip=1 --max-count=1 --grep="$EXTENSION_SHORT" 2>/dev/null)" 2>/dev/null)"
+	if [ -n "$RELEASE_NOTES" ]; then
+		mv "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.json" "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.tmp.json"
+		jq --arg release_notes "$RELEASE_NOTES" '.version.release_notes = { "en-US": $escaped_markdown }' "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.tmp.json" > "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.json"
+		rm -f "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.tmp.json"
+	fi
+	if [ -f "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/README.md" ]; then
+		mv "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.json" "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.tmp.json"
+		jq --arg escaped_markdown "$(jq -Rs @json "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/README.md")" '. + { "description": { "en-US": $escaped_markdown } }' "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.tmp.json" > "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.json"
+		rm -f "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.tmp.json"
+	fi
+	echo "The following amo metadata will be published"
+	jq -r . "${GIT_ROOT_PATH}/${EXTENSION_SHORT}.json"
+}
+
 function publish() {
     if [ -z "$WEB_EXT_API_KEY" ]; then
         echo "Missing JWT issuer for web-ext. Please declare a GitHub secret named WEB_EXT_API_KEY"
@@ -92,8 +118,8 @@ function publish() {
 }
 
 function checkPublication() {
-    TTL=5
-    INTERVAL=30
+    TTL=15
+    INTERVAL=60
     while [ $TTL -gt 0 ]; do
         if curl -LsS "https://addons.mozilla.org/api/v5/addons/addon/${EXTENSION_SLUG}/versions/?page_size=100" | jq -r '.data[].version // empty' | grep -q -P "^${EXTENSION_VERSION//./\\.}$"; then
             echo "Package version $EXTENSION_VERSION published successfully to $EXTENSION_SLUG"

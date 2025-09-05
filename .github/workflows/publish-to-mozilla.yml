@@ -39,6 +39,18 @@ jobs:
           set -euo pipefail
           source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
           build
+      - name: Release
+        run: |
+          set -euo pipefail
+          set -x
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          release
+      - name: Prepare
+        run: |
+          set -euo pipefail
+          set -x
+          source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
+          prepare
       - name: Publish
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
@@ -63,3 +75,5 @@ jobs:
             ${{ env.EXTENSION_NAME }}
 
             **Firefox Browser Add-Ons**: https://addons.mozilla.org/firefox/addon/copy-as-markdown-link/
+
+            ${{ env.RELEASE_NOTES || "" }}
