@@ -58,6 +58,7 @@ jobs:
       - name: Check Publication
         run: |
           set -euo pipefail
+          set -x
           source "${GITHUB_WORKSPACE}/.github/workflows/mozilla_libs.sh"
           checkPublication
       - name: Release
@@ -71,5 +72,6 @@ jobs:
             ${{ env.EXTENSION_NAME }}
 
             **Firefox Browser Add-Ons**: https://addons.mozilla.org/firefox/addon/copy-as-markdown-link/
+            **File Direct Download Link**: ${{ env.EXTENSION_FILE_URL }}
 
             ${{ env.RELEASE_NOTES || '' }}

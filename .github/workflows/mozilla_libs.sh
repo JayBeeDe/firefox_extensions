@@ -84,7 +84,7 @@ function prepare() {
 	last_tag_name="$(git tag | grep -P "^${EXTENSION_SHORT}_v*" 2>/dev/null | tail -n -2 | head -n 1)"
 	if [ -n "$last_tag_name" ]; then
 		echo "last_tag_name was $last_tag_name"
-		_export RELEASE_NOTES="$EXTENSION_VERSION ($(date +%Y-%m-%d))\n\n$(git log --pretty=format:"%s" "${last_tag_name}..HEAD" | awk -v component="$EXTENSION_SHORT" '$0 ~ component {sub(/^[^:]+:\s*/, ""); print}' | sed -rz "s:\n:\\\n:g")"
+		_export RELEASE_NOTES="$EXTENSION_VERSION ($(date +%Y-%m-%d)):$(git log --pretty=format:"%s" "${last_tag_name}..HEAD" | awk -v component="$EXTENSION_SHORT" '$0 ~ component {sub(/^[^:]+:\s*/, ""); print}')"
 		echo "release_notes"
 		echo "$RELEASE_NOTES"
 	fi
@@ -119,8 +119,11 @@ function checkPublication() {
     TTL=15
     INTERVAL=60
     while [ $TTL -gt 0 ]; do
-        if curl -LsS "https://addons.mozilla.org/api/v5/addons/addon/${EXTENSION_SLUG}/versions/?page_size=100" | jq -r '.results[].version' | grep -q -P "^${EXTENSION_VERSION//./\\.}$"; then
+        if curl -LsS "https://addons.mozilla.org/api/v5/addons/addon/${EXTENSION_SLUG}/versions/?page_size=100&$(date +%s)" | jq -r '.results[].version' | grep -q -P "^${EXTENSION_VERSION//./\\.}$"; then
             echo "Package version $EXTENSION_VERSION published successfully to $EXTENSION_SLUG"
+			curl -LsS "https://addons.mozilla.org/api/v5/addons/addon/${EXTENSION_SLUG}/versions/?page_size=100&$(date +%s)" | jq -r --arg EXTENSION_VERSION "$EXTENSION_VERSION" '[.results[] | select(.version == $EXTENSION_VERSION)]| first' > "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/version_infos.json"
+			jq . "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/version_infos.json"
+			_export EXTENSION_FILE_URL="$(jq -r .file.url "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/version_infos.json")"
             exit 0
         fi
         echo "Waiting ${INTERVAL}s for API to check package $EXTENSION_SLUG version $EXTENSION_VERSION publication ($TTL attempt(s) left)..."
