@@ -84,7 +84,7 @@ function prepare() {
 	last_tag_name="$(git tag | grep -P "^${EXTENSION_SHORT}_v*" 2>/dev/null | tail -n -2 | head -n 1)"
 	if [ -n "$last_tag_name" ]; then
 		echo "last_tag_name was $last_tag_name"
-		_export RELEASE_NOTES="$EXTENSION_VERSION ($(date +%Y-%m-%d)): $(git log --pretty=format:"%s" "${last_tag_name}..HEAD" | awk -v component="$EXTENSION_SHORT" '$0 ~ component {sub(/^[^:]+:\s*/, ""); print}' | sed -rz "s:\n:, :g")"
+		_export RELEASE_NOTES="$EXTENSION_VERSION ($(date +%Y-%m-%d)): $(git log --pretty=format:"%s" "${last_tag_name}..HEAD" | awk -v component="$EXTENSION_SHORT" '$0 ~ component {sub(/^[^:]+:\s*/, ""); print}' | sed -rz "s:\n:, :g" | sed -r "s:, $::")"
 		echo "release_notes"
 		echo "$RELEASE_NOTES"
 	fi
