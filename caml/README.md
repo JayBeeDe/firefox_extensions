@@ -1,7 +1,7 @@
 # copy-as-markdown-link
 
 <p align="center">
-  <img src="icons/logo.png" alt="copy-as-markdown-link logo">
+  <img src="icons/icon512.png" alt="copy-as-markdown-link logo" width="128" height="128">
 </p>
 
 Firefox Extension to copy the current tab's URL and title as a Markdown/Jira/HTML link to the clipboard.
@@ -14,7 +14,7 @@ Firefox Extension to copy the current tab's URL and title as a Markdown/Jira/HTM
 
 For example, suppose your active tab is <https://bugzilla.kernel.org/show_bug.cgi?id=220522>.
 
-Trigger the extension action either by clicking the ![extension](icons/icon48.png) icon in the Firefox toolbar or by using the extension shortcut configured near "Copy the current tab's URL and title as Markdown link" (default is `Ctrl+Alt+M`).
+Trigger the extension action either by clicking the icon in the Firefox toolbar or by using the extension shortcut configured near "Copy the current tab's URL and title as Markdown link" (default is `Ctrl+Alt+M`).
 
 ![Click Extension Icon](screenshots/background.png)
 

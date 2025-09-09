@@ -26,8 +26,7 @@
     "action": {
         "default_title": "Copy as Markdown Link",
         "default_icon": {
-            "48": "icons/icon48.png",
-            "96": "icons/icon96.png"
+            "512": "icons/icon512.png"
         }
     },
     "commands": {
@@ -60,7 +59,6 @@
         }
     },
     "icons": {
-        "48": "icons/icon48.png",
-        "96": "icons/icon96.png"
+        "512": "icons/icon512.png"
     }
 }
