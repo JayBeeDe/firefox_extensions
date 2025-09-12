@@ -3,6 +3,18 @@
 const DEFAULT_ICON = "icons/icon512.png";
 const SUCCESS_ICON = "icons/icon512-ok.png";
 
+browser.contextMenus.create({
+  id: "copy-jira-link-context-menu",
+  title: "Copy as Jira Link",
+  contexts: ["action"]
+});
+
+browser.contextMenus.create({
+  id: "copy-html-link-context-menu",
+  title: "Copy as HTML Link",
+  contexts: ["action"]
+});
+
 function createLink(typeLink = "markdown") {
     browser.tabs.query({ active: true, currentWindow: true })
         .then(tabs => {
@@ -62,10 +74,22 @@ browser.commands.onCommand.addListener(function (command) {
     }
 });
 
+browser.contextMenus.onClicked.addListener(function(info) {
+  if (info.menuItemId === "copy-jira-link-context-menu") {
+    createLink("jira");
+  }
+});
+
 browser.commands.onCommand.addListener(function (command) {
     if (command === "copy-html-link") {
         createLink("html");
     }
+});
+
+browser.contextMenus.onClicked.addListener(function(info) {
+  if (info.menuItemId === "copy-html-link-context-menu") {
+    createLink("html");
+  }
 });
 
 browser.action.onClicked.addListener(createLink);

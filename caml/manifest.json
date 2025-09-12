@@ -12,6 +12,7 @@
     "permissions": [
         "activeTab",
         "clipboardWrite",
+        "contextMenus",
         "storage"
     ],
     "options_ui": {
