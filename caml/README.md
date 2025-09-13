@@ -1,7 +1,7 @@
 # copy-as-markdown-link
 
 <p align="center">
-  <img src="icons/icon512.png" alt="copy-as-markdown-link logo" width="128" height="128">
+  <img src="icons/icon.png" alt="copy-as-markdown-link logo" width="128" height="128">
 </p>
 
 Firefox Extension to copy the current tab's URL and title as a Markdown/Jira/HTML link to the clipboard.
