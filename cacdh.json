@@ -1,0 +1,28 @@
+{
+	"categories": [
+		"appearance"
+	],
+	"tags": [
+		"dark mode"
+	],
+	"description": {
+		"en-US": "This firefox extension is a Dark High Contrast theme with the ability to customize the main accentuation color. It also propagates the dark high contrast them to the web page you are visiting (if compatible)."
+	},
+	"homepage": {
+		"en-US": "https://github.com/JayBeeDe/firefox_extensions/blob/main/cacdh/README.md"
+	},
+	"name": {
+		"en-US": "Custom Accentuation Color Dark High Contrast"
+	},
+	"requires_payment": false,
+	"slug": "custom-color-dark-contrast",
+	"summary": {
+		"en-US": "Dark High Contrast Theme with customizable accentuation color."
+	},
+	"support_email": {
+		"en-US": "dev@delon.cloud"
+	},
+	"version": {
+		"license": "GPL-3.0-only"
+	}
+}

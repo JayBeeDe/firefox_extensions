@@ -6,6 +6,7 @@ This repo contains some Firefox extensions & themes:
 
 |Type|Name|Description|
 |:---:|:---:|:---:|
+|Theme|[Custom Accentuation Color Dark High Contrast](./cacdh/)|Dark High Contrast Theme with customizable accentuation color.|
 |Extension|[Copy as Markdown Link](./caml/)|Copies the current tab's URL and title as a Markdown/Jira/HTML link to the clipboard.|
 
 ## Development

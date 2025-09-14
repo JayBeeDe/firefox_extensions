@@ -5,6 +5,7 @@ on:
     branches:
       - ci
     tags:
+      - "cacdh_v*"
       - "caml_v*"
 jobs:
   publish-firefox-extension:
