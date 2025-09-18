@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 let isDarkThemeStatus = false;
+let textSelection = null;
 const darknessThreshold = 128;
 
 const ICONS = {
@@ -81,23 +82,52 @@ function setIcon(active = "inactive") {
     browser.action.setIcon({ path: ICONS[isDarkThemeStatus ? "dark" : "light"][active] });
 }
 
+async function getSelectedTextAsync() {
+    try {
+        let [tab] = await browser.tabs.query({
+            active: true,
+            currentWindow: true
+        });
+        if (!tab) {
+            return null;
+        }
+        let result = await browser.scripting.executeScript({
+            target: {
+                tabId: tab.id
+            },
+            files: ["content.js"]
+        });
+        if (result && result[0] && result[0].result) {
+            return result[0].result;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error("Error getting selected text:", error);
+        return null;
+    }
+}
+
 function createLink(typeLink = "markdown") {
-    browser.tabs.query({ active: true, currentWindow: true })
-        .then(tabs => {
-            const tab = tabs[0];
-            if (!tab) {
-                console.error("No active tab found!");
-                return;
-            }
+    browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+        const tab = tabs[0];
+        if (!tab) {
+            console.error("No active tab found!");
+            return;
+        }
+        getSelectedTextAsync().then(result => {
             let title = tab.title;
-            const url = tab.url;
+            const url = new URL(tab.url);
+            if (result) {
+                url.hash = `:~:text=${window.encodeURIComponent(result)}`;
+            }
 
             browser.storage.sync.get("rules").then(result => {
                 const rules = result.rules || [];
                 for (const rule of rules) {
 
                     regexUrl = new RegExp(rule.url);
-                    if (!regexUrl.test(url)) continue;
+                    if (!regexUrl.test(url.toString())) continue;
 
                     regexSearch = new RegExp(rule.search);
                     if (!regexSearch.test(title)) continue;
@@ -106,26 +136,24 @@ function createLink(typeLink = "markdown") {
                     break;
                 }
 
-                let formattedLink = `[${title}](${url})`;
+                let formattedLink = `[${title}](${url.toString()})`;
                 if (typeLink === "jira") {
-                    formattedLink = `[${title}|${url}]`;
+                    formattedLink = `[${title}|${url.toString()}]`;
                 } else if (typeLink === "html") {
-                    formattedLink = `<a href="${url}" title="${title}" target="_new">${title}</a>`;
+                    formattedLink = `<a href="${url.toString()}" title="${title}" target="_new">${title}</a>`;
                 }
-
-                navigator.clipboard.writeText(formattedLink)
-                    .then(() => {
-                        console.log("Copied to clipboard:", formattedLink);
-                        setIcon("active");
-                        setTimeout(() => {
-                            setIcon();
-                        }, 2000);
-                    })
-                    .catch(err => {
-                        console.error("Failed to copy:", err);
-                    });
+                navigator.clipboard.writeText(formattedLink).then(() => {
+                    console.log("Copied to clipboard:", formattedLink);
+                    setIcon("active");
+                    setTimeout(() => {
+                        setIcon();
+                    }, 2000);
+                }).catch(err => {
+                    console.error("Failed to copy:", err);
+                });
             });
         });
+    });
 }
 
 browser.commands.onCommand.addListener(function (command) {

@@ -13,7 +13,18 @@
         "activeTab",
         "clipboardWrite",
         "contextMenus",
+        "scripting",
         "storage"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "content.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
     ],
     "options_ui": {
         "page": "options.html",
