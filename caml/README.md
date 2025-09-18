@@ -12,6 +12,10 @@ Firefox Extension to copy the current tab's URL and title as a Markdown/Jira/HTM
     </a>
 </p>
 
+## How it works
+
+### Simple Use
+
 For example, suppose your active tab is <https://bugzilla.kernel.org/show_bug.cgi?id=220522>.
 
 Trigger the extension action either by clicking the icon in the Firefox toolbar or by using the extension's keyboard shortcut configured near "Copy the current tab's URL and title as Markdown link" (default is `Ctrl+Alt+M`).
@@ -26,6 +30,8 @@ So the markdown link copied to your clipboard is:
 ```
 
 Which outputs: [220522 – iwlwifi: Wi-Fi 6 AX201 160MHz missing ucode firmware files](https://bugzilla.kernel.org/show_bug.cgi?id=220522).
+
+### Advanced Use
 
 Now let's suppose you are often working on this website and you want to simplify the link title. Suppose you want something like:
 
@@ -46,6 +52,8 @@ To do that, open the extension preferences page and add the following rule:
 Do not forget to click "Save Options" button and go back to the <https://bugzilla.kernel.org/show_bug.cgi?id=220522> page.
 Trigger the extension action.
 
+### Secondary Actions
+
 You can also copy links to Jira and HTML format similarly to Markdown syntax by using the contextual menu by right-clicking the icon or by using the extension's keyboard shortcut.
 
 ![Right-Click Extension Icon](screenshots/background-secondary.png)
@@ -65,3 +73,12 @@ With our previous example, it will result as follow:
 ```html
 <a href="https://bugzilla.kernel.org/show_bug.cgi?id=220522" title="#220522" target="_new">#220522</a>
 ```
+
+#### Text Selection
+
+Even if the website doesn't have any HTML anchor, you can create a link that will highlight the selected text. Most web browsers are supporting this feature.
+
+Example with markdown:
+[220522 – iwlwifi: Wi-Fi 6 AX201 160MHz missing ucode firmware files](https://bugzilla.kernel.org/show_bug.cgi?id=220522#:~:text=iwlwifi-bz-b0-hr-b0-96.ucode)
+
+To do that, select the text and trigger the extension.
