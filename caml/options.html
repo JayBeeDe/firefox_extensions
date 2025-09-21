@@ -14,8 +14,26 @@
             By default the title remains the title of the website, but you can customize per website some regex to transform the title within the markdown link.
         </p>
         <p>
-            If some URL (regex) pattern matches, the page title will go through the replacing process with the corresponding match patten and replacement config.
+            If some URL matches "URL Match Regexp" and its title matches "Title Match Regexp", the title will go through the replacing process with the corresponding replacement config "Title Replacement Output Pattern".
         </p>
+        <p>
+            In case the information you want is missing from the original title, you can change the default "Input Pattern" containing the title (default value is <code>{{title}}</code>) to additional data such as the url and the selected text.
+        </p>
+        <p>
+            For "Input Pattern" and "Title Replacement Output Pattern" values, you  can use pattern variables such as:
+            <code>
+                {{title}}
+                {{url}}
+                {{selection}}
+            </code>
+        </p><br />
+
+        <div class="rule-header">
+            <span>URL Match Regexp</span>
+            <span>Input Pattern</span>
+            <span>Title Match Regexp</span>
+            <span>Title Replacement Output Pattern</span>
+        </div>
 
         <div id="rules-container">
             <!-- Rules will be dynamically added here -->
@@ -35,9 +53,10 @@
     </div>
     <template id="rule-template">
         <div class="rule-row">
-            <input placeholder="URL Match Pattern" class="url" />
-            <input placeholder="Title Match Pattern" class="search" />
-            <input placeholder="Title Replacement" class="replace" />
+            <input placeholder="URL Match Regexp" class="url" />
+            <input placeholder="Input Pattern" class="pattern" />
+            <input placeholder="Title Match Regexp" class="search" />
+            <input placeholder="Title Replacement Output Pattern" class="replace" />
             <span class="remove-rule-button" title="Remove Rule">✗</span>
         </div>
     </template>

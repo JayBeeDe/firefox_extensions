@@ -36,9 +36,10 @@ function addRule() {
     reindexRules(); // Update indices after adding
 }
 
-function createRuleElement(ruleData = { url: "", search: "", replace: "" }) {
+function createRuleElement(ruleData = { pattern: "{{title}}", url: "", search: "", replace: "" }) {
     const ruleNode = ruleTemplate.content.cloneNode(true);
     const ruleDiv = ruleNode.querySelector(".rule-row");
+    ruleNode.querySelector(".pattern").value = ruleData.pattern;
     ruleNode.querySelector(".url").value = ruleData.url;
     ruleNode.querySelector(".search").value = ruleData.search;
     ruleNode.querySelector(".replace").value = ruleData.replace;
@@ -71,11 +72,12 @@ function saveOptions() {
     const ruleDivs = document.querySelectorAll(".rule-row");
 
     ruleDivs.forEach(ruleDiv => {
+        const pattern = ruleDiv.querySelector(".pattern").value;
         const url = ruleDiv.querySelector(".url").value;
         const search = ruleDiv.querySelector(".search").value;
         const replace = ruleDiv.querySelector(".replace").value;
 
-        rules.push({ url: url, search: search, replace: replace });
+        rules.push({ pattern: pattern, url: url, search: search, replace: replace });
     });
 
     browser.storage.sync.set({

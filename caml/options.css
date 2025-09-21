@@ -23,6 +23,7 @@ button {
     margin: 18px;
 }
 
+.pattern,
 .url,
 .search,
 .replace {
@@ -37,6 +38,7 @@ button {
     margin: 10px;
 }
 
+.rule-header,
 .rule-row {
     display: flex;
     align-items: center;

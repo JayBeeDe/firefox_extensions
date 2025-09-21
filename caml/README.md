@@ -43,14 +43,23 @@ Which outputs: [#220522](https://bugzilla.kernel.org/show_bug.cgi?id=220522).
 
 To do that, open the extension preferences page and add the following rule:
 
-- URL Match Pattern: `https://bugzilla\.kernel\.org/show_bug\.cgi.*`
-- Title Match Pattern: `(\d+)( – .+)`
-- Title Replacement: `#$1`
+- URL Match Regexp: `https://bugzilla\.kernel\.org/show_bug\.cgi.*`
+- Input Pattern: `{{title}}` (default value)
+- Title Match Regexp: `(\d+)( – .+)`
+- Title Replacement Output Pattern: `#$1`
 
 ![Options page](screenshots/options.png)
 
 Do not forget to click "Save Options" button and go back to the <https://bugzilla.kernel.org/show_bug.cgi?id=220522> page.
 Trigger the extension action.
+
+If you need additional informations that are not part of the original title but are part of the original url or selected text, you can customize the "Input Pattern" rule option.
+
+"Input Pattern" and "Title Replacement Output Pattern" fields support the following variables:
+
+- `{{title}}`: original title
+- `{{url}}`: url without anchor
+- `{{selection}}`: selected text or empty string if nothing selected
 
 ### Secondary Actions
 

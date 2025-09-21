@@ -108,6 +108,12 @@ async function getSelectedTextAsync() {
     }
 }
 
+function replacePatterns(text, data) {
+    text = text.replace(/{{title}}/g, `${data.title}`);
+    text = text.replace(/{{url}}/g, `${data.url}`);
+    return text.replace(/{{selection}}/g, data?.selection !== null ? `${data.selection}` : "");
+}
+
 function createLink(typeLink = "markdown") {
     browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
         const tab = tabs[0];
@@ -118,6 +124,11 @@ function createLink(typeLink = "markdown") {
         getSelectedTextAsync().then(result => {
             let title = tab.title;
             const url = new URL(tab.url);
+            let data = {
+                title: title,
+                url: url.toString(),
+                selection: result,
+            };
             if (result) {
                 url.hash = `:~:text=${window.encodeURIComponent(result)}`;
             }
@@ -132,10 +143,13 @@ function createLink(typeLink = "markdown") {
                     regexSearch = new RegExp(rule.search);
                     if (!regexSearch.test(title)) continue;
 
+                    title = replacePatterns(rule.pattern, data);
+
                     title = title.replace(regexSearch, rule.replace);
                     break;
                 }
 
+                title = replacePatterns(title, data);
                 let formattedLink = `[${title}](${url.toString()})`;
                 if (typeLink === "jira") {
                     formattedLink = `[${title}|${url.toString()}]`;
