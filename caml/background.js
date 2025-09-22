@@ -140,10 +140,10 @@ function createLink(typeLink = "markdown") {
                     regexUrl = new RegExp(rule.url);
                     if (!regexUrl.test(url.toString())) continue;
 
+                    title = replacePatterns(rule.pattern, data);
+
                     regexSearch = new RegExp(rule.search);
                     if (!regexSearch.test(title)) continue;
-
-                    title = replacePatterns(rule.pattern, data);
 
                     title = title.replace(regexSearch, rule.replace);
                     break;
