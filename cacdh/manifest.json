@@ -6,7 +6,12 @@
     "author": "JayBeeDe",
     "browser_specific_settings": {
         "gecko": {
-            "id": "@custom-color-dark-contrast"
+            "id": "@custom-color-dark-contrast",
+            "data_collection_permissions": {
+                "required": [
+                    "none"
+                ]
+            }
         }
     },
     "host_permissions": [
