@@ -16,10 +16,32 @@
             <input type="color" id="accentuationColor" name="accentuationColor" />
         </div>
 
+        <div class="exception-header">
+            <span>Websites to exclude from dark mode</span>
+        </div>
+
+        <div id="exceptions-container">
+            <!-- Exceptions will be dynamically added here -->
+        </div>
+
+        <button id="add-exception">Add Exception</button>
         <button id="save-options">Save Options</button>
+        <button id="import-options">Import Options</button>
+        <input id="import-options-browse" type="file" class="hidden" accept=".json" id="import-options"></button>
+        <button id="export-options">Export Options</button>
 
         <span id="saved-ok" class="status-ok">Options saved</span>
+        <span id="exported-ok" class="status-ok">Options exported to file</span>
+        <span id="exported-error" class="status-error">An error has occurred while exporting to file</span>
+        <span id="imported-ok" class="status-ok">Options imported from file</span>
+        <span id="imported-error" class="status-error">An error has occurred while importing file</span>
     </div>
+    <template id="exception-template">
+        <div class="exception-row">
+            <input placeholder="URL Match Regexp" class="url" />
+            <span class="remove-exception-button" title="Remove Exception">✗</span>
+        </div>
+    </template>
 
     <script src="options.js" type="module"></script>
 </body>

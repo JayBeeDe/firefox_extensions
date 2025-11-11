@@ -1,4 +1,4 @@
-import { DEFAULT_COLORS, DARKNESS_SETTINGS, THEME_SETTINGS, SETTINGS_ACCENTUATION_KEYS, SETTINGS_DYNAMIC_KEYS } from "./defaults.js"
+import { DEFAULT_EXCEPTIONS, DEFAULT_COLORS, DARKNESS_SETTINGS, THEME_SETTINGS, SETTINGS_ACCENTUATION_KEYS, SETTINGS_DYNAMIC_KEYS } from "./defaults.js"
 
 function hexToRgb(color) {
     let r = null, g = null, b = null;
@@ -78,6 +78,17 @@ function restoreAccentuationColor() {
     });
 }
 
+function isDarkMode(url, exceptions) {
+    for (const exception of exceptions) {
+        let regexUrl = new RegExp(exception);
+        if (regexUrl.test(url)) {
+            console.warn(`Dark mode disabled on website ${url} because of exception regex ${exception}`);
+            return false;
+        }
+    }
+    return true;
+}
+
 browser.storage.onChanged.addListener(handleAccentuationColorChange);
 
 restoreAccentuationColor();
@@ -118,10 +129,13 @@ hr, fieldset, input, textarea, select {
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === "complete" && tab.url) {
         // Get the selection color from storage
-        browser.storage.sync.get("accentuationColor")
-            .then(result => {
+        browser.storage.sync.get({
+            accentuationColor: DEFAULT_COLORS["accentuation"],
+            exceptions: DEFAULT_EXCEPTIONS
+        }).then(result => {
+            if (isDarkMode(tab.url.toString(), result.exceptions)) {
                 injectDynamicCSS(tabId, result?.accentuationColor || DEFAULT_COLORS["accentuation"]);
-            })
-            .catch(error => console.error("Error getting selection color:", error));
+            }
+        }).catch(error => console.error("Error getting selection color:", error));
     }
 });

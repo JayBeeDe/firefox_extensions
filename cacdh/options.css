@@ -1,5 +1,5 @@
 body {
-    background-color: #1a1a1a;
+    background-color: #242225;
     color: #ffffff;
     font-size: 16px;
 }
@@ -23,10 +23,49 @@ button {
     margin: 18px;
 }
 
+.url {
+    background-color: #464347;
+    border: none;
+    padding: 10px 16px;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 10px 16px;
+    width: 100%;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.exception-header,
+.exception-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.remove-exception-button {
+    color: #ff0000;
+    cursor: pointer;
+    font-size: 38px;
+}
+
 .status-error,
 .status-ok {
     padding: 5px 10px;
     font-weight: bold;
     font-size: 14px;
+    display: none;
+}
+
+.status-error {
+    border: 1px solid #ff0000;
+    color: #ff0000;
+}
+
+.status-ok {
+    border: 1px solid #04AA6D;
+    color: #04AA6D;
+}
+
+.hidden {
     display: none;
 }
