@@ -82,7 +82,7 @@ jobs:
             A new release is available for the following firefox extension:
             ${{ env.EXTENSION_NAME }}
 
-            **Firefox Browser Add-Ons**: https://addons.mozilla.org/firefox/addon/copy-as-markdown-link/
+            **Firefox Browser Add-Ons**: https://addons.mozilla.org/firefox/addon/${{ env.EXTENSION_SLUG }}/
             **File Direct Download Link**: ${{ env.EXTENSION_FILE_URL }}
 
             ${{ env.RELEASE_NOTES || '' }}
