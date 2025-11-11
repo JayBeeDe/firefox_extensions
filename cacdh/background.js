@@ -87,18 +87,28 @@ function injectDynamicCSS(tabId, accentuationColor) {
     browser.scripting.insertCSS({
         target: { tabId: tabId },
         css: `
+:root {
+  --color: ${DEFAULT_COLORS["white"]};
+  --bg-color: ${DEFAULT_COLORS["black"]};
+  --accent-color: ${accentuationColor};
+  --bg-accent-color: ${color};
+}
 ::selection {
-    background-color: ${accentuationColor};
-    color: ${color};
+  background-color: var(--accent-color) !important;
+  color: var(--bg-accent-color) !important;
 }
 * {
-    background-color: ${DEFAULT_COLORS["black"]}!important;
-    color: ${DEFAULT_COLORS["white"]}!important;
-    scrollbar-width: auto;
-    scrollbar-color: ${accentuationColor} ${DEFAULT_COLORS["coal"]}!important;
+  background-color: var(--bg-color) !important;
+  border-color: var(--accent-color) !important;
+  color: var(--color) !important;
+  scrollbar-color: var(--accent-color) var(--bg-color) !important;
+  scrollbar-width: auto;
 }
-h1,h2,h3,h4,h5,h6,h7 {
-    color: ${accentuationColor}!important;
+h1, h2, h3, h4, h5, h6, a, a *, button {
+  color: var(--accent-color) !important;
+}
+hr, fieldset, input, textarea, select {
+  border-color: var(--accent-color) !important;
 }
 
             `
