@@ -37,7 +37,11 @@ function checkTag() {
         echo "Cannot parse firefox extension name from file ${GIT_ROOT_PATH}/${EXTENSION_SHORT}/manifest.json"
         exit 2
     fi
-	EXTENSION_SLUG="${EXTENSION_NAME// /-}"
+	EXTENSION_SLUG="$(jq -r '.browser_specific_settings.gecko.id // empty' "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/manifest.json")"
+	EXTENSION_SLUG="${EXTENSION_SLUG//@/}"
+    if [ -z "$EXTENSION_SLUG" ]; then
+		EXTENSION_SLUG="${EXTENSION_NAME// /-}"
+	fi
 	_export EXTENSION_SLUG="${EXTENSION_SLUG,,}"
     _export EXTENSION_AUTHOR="$(jq -r '.author // empty' "${GIT_ROOT_PATH}/${EXTENSION_SHORT}/manifest.json")"
     if [ -z "$EXTENSION_AUTHOR" ]; then
